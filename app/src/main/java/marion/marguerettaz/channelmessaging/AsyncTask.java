@@ -16,11 +16,13 @@ public class AsyncTask extends android.os.AsyncTask<Long,Integer,String> {
     private Context myContext;
     private HashMap<String, String> login = new HashMap<>();
     public ArrayList<OnDownloadCompleteListener> listeners = new ArrayList<>();
+    public String url;
 
-    public AsyncTask(Context myContext, HashMap login)
+    public AsyncTask(Context myContext, HashMap login, String url)
     {
         this.myContext = myContext;
         this.login = login;
+        this.url = url;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class AsyncTask extends android.os.AsyncTask<Long,Integer,String> {
 
         for(OnDownloadCompleteListener listener : listeners)
         {
-            listener.onDownloadComplete(result); listener.onDownloadComplete(result);
+            listener.onDownloadComplete(result);
         }
     }
 
@@ -46,7 +48,7 @@ public class AsyncTask extends android.os.AsyncTask<Long,Integer,String> {
     @Override
     protected String doInBackground(Long... params) {
 
-        return performPostCall("http://www.raphaelbischof.fr/messaging/?function=connect", login);
+        return performPostCall(url, login);
     }
 
     public String performPostCall(String requestURL, HashMap<String, String> postDataParams) {
