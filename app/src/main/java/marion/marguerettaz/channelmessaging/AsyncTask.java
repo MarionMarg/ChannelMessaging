@@ -17,12 +17,14 @@ public class AsyncTask extends android.os.AsyncTask<Long,Integer,String> {
     private HashMap<String, String> login = new HashMap<>();
     public ArrayList<OnDownloadCompleteListener> listeners = new ArrayList<>();
     public String url;
+    public int requestCode;
 
-    public AsyncTask(Context myContext, HashMap login, String url)
+    public AsyncTask(Context myContext, HashMap login, String url, int requestCode)
     {
         this.myContext = myContext;
         this.login = login;
         this.url = url;
+        this.requestCode = requestCode;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class AsyncTask extends android.os.AsyncTask<Long,Integer,String> {
 
         for(OnDownloadCompleteListener listener : listeners)
         {
-            listener.onDownloadComplete(result);
+            listener.onDownloadComplete(result, requestCode);
         }
     }
 

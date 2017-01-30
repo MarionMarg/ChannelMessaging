@@ -5,5 +5,5 @@ package marion.marguerettaz.channelmessaging;
  */
 public interface OnDownloadCompleteListener {
 
-    public void onDownloadComplete(String result);
+    public void onDownloadComplete(String result, int requestCode);
 }

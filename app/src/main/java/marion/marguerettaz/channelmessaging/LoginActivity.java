@@ -33,6 +33,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
         setContentView(R.layout.activity_login);
         textId = (EditText) findViewById(R.id.identifiant);
         textMdp = (EditText) findViewById(R.id.mdp);
+        textId.setText("mmarg");
+        textMdp.setText("marionmarguerettaz");
         textViewId = (TextView) findViewById(R.id.textIdentifian);
         textViewMdp = (TextView) findViewById(R.id.textViewMdp);
         btnValider = (Button) findViewById(R.id.valider);
@@ -49,14 +51,14 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
             HashMap<String, String> infoConnexion = new HashMap<>();
             infoConnexion.put("username",textId.getText().toString());
             infoConnexion.put("password",textMdp.getText().toString());
-            AsyncTask login = new AsyncTask(getApplicationContext(), infoConnexion, "http://www.raphaelbischof.fr/messaging/?function=connect");
+            AsyncTask login = new AsyncTask(getApplicationContext(), infoConnexion, "http://www.raphaelbischof.fr/messaging/?function=connect", 01);
             login.setOnDownloadCompleteListener(this);
             login.execute();
         }
     }
 
     @Override
-    public void onDownloadComplete(String result) {
+    public void onDownloadComplete(String result, int requestCode) {
         Gson gson = new Gson();
         Connect connect1 = gson.fromJson(result, Connect.class);
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
