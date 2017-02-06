@@ -36,9 +36,7 @@ public class AsyncTaskStorage extends android.os.AsyncTask<Long, Integer, String
             URL url = new URL(fileURL);
             File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+fileName);
             file.createNewFile();
-            /* Open a connection to that URL. */
             URLConnection ucon = url.openConnection();
-            /* Define InputStreams to read from the URLConnection.*/
             InputStream is = ucon.getInputStream();
             /* Read bytes to the Buffer until there is nothing more to
             read(- 1) and write on the fly in the file.*/
