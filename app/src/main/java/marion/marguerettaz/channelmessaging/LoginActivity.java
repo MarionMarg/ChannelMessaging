@@ -30,7 +30,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        //setContentView(R.layout.activity_login);
+
+        setContentView(R.layout.teqst);
+
+        /*
         textId = (EditText) findViewById(R.id.identifiant);
         textMdp = (EditText) findViewById(R.id.mdp);
         textId.setText("mmarg");
@@ -38,13 +42,14 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
         textViewId = (TextView) findViewById(R.id.textIdentifian);
         textViewMdp = (TextView) findViewById(R.id.textViewMdp);
         btnValider = (Button) findViewById(R.id.valider);
-        btnValider.setOnClickListener(this);
+        btnValider.setOnClickListener(this);*/
     }
 
 
     //asynctask puis crée evenement
     @Override
     public void onClick(View v) {
+        /*
         if(v.getId() == R.id.valider)
         {
 
@@ -55,11 +60,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
             login.setOnDownloadCompleteListener(this);
             login.execute();
         }
+        */
     }
 
     @Override
     public void onDownloadComplete(String result, int requestCode) {
-        Gson gson = new Gson();
+        /*Gson gson = new Gson();
         Connect connect1 = gson.fromJson(result, Connect.class);
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -73,7 +79,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
         }
         else
             Toast.makeText(LoginActivity.this, "Mauvais identifiants", Toast.LENGTH_SHORT).show();
-    }
+
+    */}
+
 
 
 }
