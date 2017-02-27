@@ -57,4 +57,5 @@ public class ChannelListActivity extends Activity implements OnDownloadCompleteL
         myIntent.putExtra("id", ch.channels.get(position).channelID);
         startActivity(myIntent);
     }
+
 }

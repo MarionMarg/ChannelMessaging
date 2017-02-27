@@ -53,6 +53,7 @@ public class AsyncTaskStorage extends android.os.AsyncTask<Long, Integer, String
             return file.getAbsolutePath();
         } catch (IOException e) {
             return "Nok";
+
         }
 
 
