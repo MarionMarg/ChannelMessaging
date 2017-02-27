@@ -70,8 +70,14 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
         photoBtn = (Button) v.findViewById(R.id.buttonPhoto);
         photoBtn.setOnClickListener((View.OnClickListener)this);
 
+        return v;
+    }
 
-        id = getIntent().getIntExtra("id", 0);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        id = getActivity().getIntent().getIntExtra("id", 0);
 
         Runnable r = new Runnable() {
             public void run() {
@@ -86,7 +92,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
             }
         };
         handler.postDelayed(r,1000);
-        return v;
+
     }
 
     @Override
@@ -99,9 +105,9 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
         else if (requestCode == 1){
             MessageAEnvoyer messageEnvoye = gson.fromJson(result, MessageAEnvoyer.class);
             if(messageEnvoye.code == 200)
-                Toast.makeText(MessageFragment.this, "Message envoye", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Message envoye", Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(MessageFragment.this, "Message non envoye", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Message non envoye", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -111,7 +117,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
     public void onClick(View v) {
         if(v.getId() == R.id.valider)
         {
-            id = getIntent().getIntExtra("id", 0);
+            id = getActivity().getIntent().getIntExtra("id", 0);
             SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
             HashMap<String, String> infoConnexion = new HashMap<>();
             infoConnexion.put("accesstoken",settings.getString("accesstoken",""));
@@ -130,7 +136,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Uri uri = FileProvider.getUriForFile(MessageFragment.this, MessageFragment.this.getActivity().getPackageName() + ".provider", file);
+            Uri uri = FileProvider.getUriForFile(getActivity(), MessageFragment.this.getActivity().getPackageName() + ".provider", file);
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             startActivityForResult(intent, PICTURE_REQUEST_CODE);
@@ -138,19 +144,19 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
             case PICTURE_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
 
                     File file = new File(Environment.getExternalStorageDirectory()+"/img.jpg");
                     try {
-                        resizeFile(file, this);
+                        resizeFile(file, getActivity());
                         SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
                         List<NameValuePair> params = new ArrayList<>();
                         params.add(new BasicNameValuePair("accesstoken", settings.getString("accesstoken","")));
                         params.add(new BasicNameValuePair("channelid",String.valueOf(id)));
-                        UploadFileToServer pictures = new UploadFileToServer(this,file.getPath(), params, this);
+                        UploadFileToServer pictures = new UploadFileToServer(getActivity(),file.getPath(), params, this);
                         pictures.execute();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -221,11 +227,11 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
 
     @Override
     public void onResponse(String result) {
-        Toast.makeText(MessageFragment.this, result, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onFailed(IOException error) {
-        Toast.makeText(MessageFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity() , error.toString(), Toast.LENGTH_SHORT).show();
     }
 }
