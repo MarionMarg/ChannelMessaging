@@ -18,6 +18,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/textView2"
-        android:textColor="@color/abc_search_url_text" />
+        android:textColor="@color/colorAccent"
+        android:paddingTop="5dp"
+        android:layout_marginBottom="16dp"
+        />
 
 </LinearLayout>

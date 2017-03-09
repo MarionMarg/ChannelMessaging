@@ -1,48 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:id="@+id/llBackground"
+    android:weightSum="1"
+    android:background="@color/black"
+    >
 
-    <LinearLayout
-        android:orientation="horizontal"
+
+    <ImageView
+        android:layout_width="211dp"
+        android:layout_height="169dp"
+        android:id="@+id/imageView2"
+        android:src="@drawable/channel_messaging_logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.31" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textIdentifian"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Identifiant"
-            android:id="@+id/textIdentifian" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textColorHint="@color/white"
+        >
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/identifiant"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/identifiant" />
+            android:textColor="@color/white"
+            android:inputType="textEmailAddress"
+            android:hint="@string/login" />
 
-    </LinearLayout>
+    </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textViewMdp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mot de passe"
-            android:id="@+id/textViewMdp" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textColorHint="@color/white">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/mdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mdp" />
-    </LinearLayout>
+            android:textColor="@color/white"
+            android:inputType="textPassword"
+            android:hint="@string/mdp" />
+
+    </android.support.design.widget.TextInputLayout>
+
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="327dp"
         android:layout_height="wrap_content"
         android:text="Valider"
         android:id="@+id/valider"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorAccent"
+    />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Connectez vous pour accèder  à la messagerie"
+        android:id="@+id/textView3"
+        android:layout_weight="0.11"
+        android:textColor="@color/white"
+        android:gravity="center" />
 
 </LinearLayout>

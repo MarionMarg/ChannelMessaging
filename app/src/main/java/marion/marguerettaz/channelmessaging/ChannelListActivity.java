@@ -5,6 +5,8 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,10 +17,13 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 
+import marion.marguerettaz.channelmessaging.Fragements.ChannelListFragment;
+import marion.marguerettaz.channelmessaging.Fragements.MessageFragment;
+
 /**
  * Created by marguerm on 23/01/2017.
  */
-public class ChannelListActivity extends Activity implements OnDownloadCompleteListener, AdapterView.OnItemClickListener {
+public class ChannelListActivity extends AppCompatActivity implements OnDownloadCompleteListener, AdapterView.OnItemClickListener {
 
     ListView listView;
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -53,9 +58,19 @@ public class ChannelListActivity extends Activity implements OnDownloadCompleteL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent myIntent = new Intent(getApplicationContext(),ChannelActivity.class);
-        myIntent.putExtra("id", ch.channels.get(position).channelID);
-        startActivity(myIntent);
+        ChannelListFragment fragA   = (ChannelListFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentA_ID);
+        MessageFragment fragB= (MessageFragment)getSupportFragmentManager().findFragmentById (R.id.fragmentB_ID);
+        if(fragB==null|| !fragB.isInLayout()){
+            Intent myIntent = new Intent(getApplicationContext(),ChannelActivity.class);
+            myIntent.putExtra("id", ch.channels.get(position).channelID);
+            startActivity(myIntent);
+        }
+        else
+        {
+            fragB.changeChannelId (ch.channels.get(position).channelID);
+        }
+
+
     }
 
 }

@@ -37,8 +37,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
         textMdp = (EditText) findViewById(R.id.mdp);
         textId.setText("mmarg");
         textMdp.setText("marionmarguerettaz");
-        textViewId = (TextView) findViewById(R.id.textIdentifian);
-        textViewMdp = (TextView) findViewById(R.id.textViewMdp);
         btnValider = (Button) findViewById(R.id.valider);
         btnValider.setOnClickListener(this);
     }

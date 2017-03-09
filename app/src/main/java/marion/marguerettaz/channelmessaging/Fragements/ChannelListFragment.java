@@ -1,10 +1,10 @@
 package marion.marguerettaz.channelmessaging.Fragements;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import java.util.HashMap;
 import marion.marguerettaz.channelmessaging.AsyncTask;
 import marion.marguerettaz.channelmessaging.ChannelActivity;
 import marion.marguerettaz.channelmessaging.ChannelAdapter;
+import marion.marguerettaz.channelmessaging.ChannelListActivity;
 import marion.marguerettaz.channelmessaging.Channels;
 import marion.marguerettaz.channelmessaging.OnDownloadCompleteListener;
 import marion.marguerettaz.channelmessaging.R;
@@ -59,7 +60,7 @@ public class ChannelListFragment extends Fragment implements OnDownloadCompleteL
             ch = gson.fromJson(result, Channels.class);
 
             listView.setAdapter(new ChannelAdapter(getActivity(), R.layout.channel_activity_activity ,R.layout.row_layout, ch.channels));
-            listView.setOnItemClickListener(this);
+            listView.setOnItemClickListener((ChannelListActivity)getActivity());
 
 
         }

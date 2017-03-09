@@ -1,6 +1,5 @@
 package marion.marguerettaz.channelmessaging.Fragements;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +31,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import marion.marguerettaz.channelmessaging.AsyncTask;
+import marion.marguerettaz.channelmessaging.ChannelListActivity;
 import marion.marguerettaz.channelmessaging.ChannelMessageAdapter;
 import marion.marguerettaz.channelmessaging.MessageAEnvoyer;
 import marion.marguerettaz.channelmessaging.Messages;
@@ -51,7 +53,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
 
     private static final int PICTURE_REQUEST_CODE = 1;
     private static final int INTENT_PHOTO = 0;
-    public int id;
+    public int id=-1;
     public Handler handler = new Handler();
     public static final String PREFS_NAME = "MyPrefsFile";
     public ListView listViewMessage;
@@ -61,7 +63,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.channel_list_activity_fragment, container);
+        View v = inflater.inflate(R.layout.channel_activity_fragment, container);
 
         listViewMessage = (ListView) v.findViewById(R.id.listViewMessages);
         valider = (Button) v.findViewById(R.id.valider);
@@ -73,21 +75,30 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
         return v;
     }
 
+    public void changeChannelId(int channelId)
+    {
+        id = channelId;
+    }
+
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        id = getActivity().getIntent().getIntExtra("id", 0);
+        id = getActivity().getIntent().getIntExtra("id", -1);
 
         Runnable r = new Runnable() {
             public void run() {
-                SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-                HashMap<String, String> infoConnexion = new HashMap<>();
-                infoConnexion.put("accesstoken",settings.getString("accesstoken",""));
-                infoConnexion.put("channelid",String.valueOf(id));
-                AsyncTask login = new AsyncTask(getActivity(),infoConnexion ,"http://www.raphaelbischof.fr/messaging/?function=getmessages", 2);
-                login.setOnDownloadCompleteListener(MessageFragment.this);
-                login.execute();
+                if(id != -1){
+                     SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                    HashMap<String, String> infoConnexion = new HashMap<>();
+                    infoConnexion.put("accesstoken",settings.getString("accesstoken",""));
+                    infoConnexion.put("channelid",String.valueOf(id));
+                    AsyncTask login = new AsyncTask(getActivity(),infoConnexion ,"http://www.raphaelbischof.fr/messaging/?function=getmessages", 2);
+                    login.setOnDownloadCompleteListener(MessageFragment.this);
+                    login.execute();
+                }
                 handler.postDelayed(this, 1000);
             }
         };
@@ -117,7 +128,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
     public void onClick(View v) {
         if(v.getId() == R.id.valider)
         {
-            id = getActivity().getIntent().getIntExtra("id", 0);
+            id = getActivity().getIntent().getIntExtra("id", -1);
             SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
             HashMap<String, String> infoConnexion = new HashMap<>();
             infoConnexion.put("accesstoken",settings.getString("accesstoken",""));
@@ -147,16 +158,16 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
             case PICTURE_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
+                if (resultCode == getActivity().RESULT_OK) {
 
                     File file = new File(Environment.getExternalStorageDirectory()+"/img.jpg");
                     try {
-                        resizeFile(file, getActivity());
+                        resizeFile(file, getActivity().getApplicationContext());
                         SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
                         List<NameValuePair> params = new ArrayList<>();
                         params.add(new BasicNameValuePair("accesstoken", settings.getString("accesstoken","")));
                         params.add(new BasicNameValuePair("channelid",String.valueOf(id)));
-                        UploadFileToServer pictures = new UploadFileToServer(getActivity(),file.getPath(), params, this);
+                        UploadFileToServer pictures = new UploadFileToServer(getActivity().getApplicationContext(),file.getPath(), params, this);
                         pictures.execute();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -166,8 +177,6 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
                 break;
         }
     }
-
-
 
 
     //decodes image and scales it to reduce memory consumption
