@@ -1,17 +1,12 @@
 package marion.marguerettaz.channelmessaging;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -33,7 +28,7 @@ public class ChannelListActivity extends AppCompatActivity implements OnDownload
     @Override
    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.channel_activity_activity);
+        setContentView(R.layout.channel_showChannel);
         listView = (ListView) findViewById(R.id.listView);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -50,7 +45,7 @@ public class ChannelListActivity extends AppCompatActivity implements OnDownload
         Gson gson = new Gson();
         ch = gson.fromJson(result, Channels.class);
 
-        listView.setAdapter(new ChannelAdapter(getApplicationContext(), R.layout.channel_activity_activity ,R.layout.row_layout, ch.channels));
+        listView.setAdapter(new ChannelAdapter(getApplicationContext(), R.layout.channel_showChannel,R.layout.row_layout, ch.channels));
         listView.setOnItemClickListener(this);
 
 

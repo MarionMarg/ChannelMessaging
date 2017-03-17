@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
         btnValider.setOnClickListener(this);
 
 
-        logo = (ImageView) findViewById(R.id.imageViewLogo1);
+        logo = (ImageView) findViewById(R.id.imageView2);
 
         mHandlerTada = new Handler(); // android.os.handler
         mShortDelay = 4000; //milliseconds
@@ -63,7 +64,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
                 YoYo.with(Techniques.Tada)
                         .duration(700)
                         .repeat(5)
-                        .playOn(findViewById(R.id.imageViewLogo1));
+                        .playOn(findViewById(R.id.imageView2));
                 mHandlerTada.postDelayed(this, mShortDelay);
             }
         }, mShortDelay);
@@ -104,12 +105,13 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
                 public void run(){
                     Intent myIntent = new Intent(getApplicationContext(),ChannelListActivity.class);
                     startActivity(myIntent, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, logo, "logo").toBundle());
-                    b
+
                 }
             }, mReallyShortDelay);
 
+            /*
             Animation animSlideLeft = AnimationUtils.loadAnimation(this, R.anim.slide_left);
-            btnValider.startAnimation(animSlideLeft);
+            btnValider.startAnimation(animSlideLeft);*/
 
         }
         else
