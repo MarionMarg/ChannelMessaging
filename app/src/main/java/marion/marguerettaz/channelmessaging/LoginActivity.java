@@ -92,30 +92,43 @@ public class LoginActivity extends Activity implements View.OnClickListener, OnD
     public void onDownloadComplete(String result, int requestCode) {
         Gson gson = new Gson();
         Connect connect1 = gson.fromJson(result, Connect.class);
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
+        if(connect1 == null) {
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString("accesstoken", connect1.accesstoken);
-        editor.commit();
-        //Pour récupérer les settings.getString("accesstoken","");
-        if(connect1.code == 200) {
-            mReallyShortDelay = 300;
-            mHandlerAnimLeft = new Handler();
-            mHandlerAnimLeft.postDelayed(new Runnable(){
-                public void run(){
-                    Intent myIntent = new Intent(getApplicationContext(),ChannelListActivity.class);
-                    startActivity(myIntent, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, logo, "logo").toBundle());
+            editor.putString("accesstoken", connect1.accesstoken);
+            editor.commit();
+            //Pour récupérer les settings.getString("accesstoken","");
+            if (connect1.code == 200) {
+                mReallyShortDelay = 300;
+                mHandlerAnimLeft = new Handler();
+                mHandlerAnimLeft.postDelayed(new Runnable() {
+                    public void run() {
+                        Intent myIntent = new Intent(getApplicationContext(), ChannelListActivity.class);
+                        startActivity(myIntent, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, logo, "logo").toBundle());
 
-                }
-            }, mReallyShortDelay);
+                    }
+                }, mReallyShortDelay);
 
             /*
             Animation animSlideLeft = AnimationUtils.loadAnimation(this, R.anim.slide_left);
             btnValider.startAnimation(animSlideLeft);*/
 
+            } else
+                Toast.makeText(LoginActivity.this, "Mauvais identifiants", Toast.LENGTH_SHORT).show();
         }
         else
-            Toast.makeText(LoginActivity.this, "Mauvais identifiants", Toast.LENGTH_SHORT).show();
+        {
+            String messageErreur=null;
+            if (retour==null)
+                messageErreur = "Vérifier votre connexion internet.";
+            else
+                messageErreur = retour.getResponse();
+            Toast.makeText(getActivity(), "Erreur : " + messageErreur , Toast.LENGTH_SHORT);
+            if(retour==null)
+                getActivity().finish();
+        }
+
 
     }
 

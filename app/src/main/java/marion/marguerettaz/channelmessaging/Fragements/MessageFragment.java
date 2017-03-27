@@ -63,7 +63,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.channel_activity_fragment, container);
+        View v = inflater.inflate(R.layout.channel_message_fragment, container);
 
         listViewMessage = (ListView) v.findViewById(R.id.listViewMessages);
         valider = (Button) v.findViewById(R.id.valider);

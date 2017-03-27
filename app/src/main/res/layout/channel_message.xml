@@ -9,6 +9,6 @@
         android:layout_weight  ="1"
         android:name  ="marion.marguerettaz.channelmessaging.Fragements.MessageFragment"
         android:id  ="@+id/fragmentB_ID"
-        tools:layout="@layout/channel_activity_fragment" />
+        tools:layout="@layout/channel_message_fragment" />
 
 </LinearLayout>

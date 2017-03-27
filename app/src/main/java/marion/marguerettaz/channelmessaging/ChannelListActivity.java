@@ -18,7 +18,8 @@ import marion.marguerettaz.channelmessaging.Fragements.MessageFragment;
 /**
  * Created by marguerm on 23/01/2017.
  */
-public class ChannelListActivity extends AppCompatActivity implements OnDownloadCompleteListener, AdapterView.OnItemClickListener {
+public class
+ChannelListActivity extends AppCompatActivity implements OnDownloadCompleteListener, AdapterView.OnItemClickListener {
 
     ListView listView;
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -28,7 +29,7 @@ public class ChannelListActivity extends AppCompatActivity implements OnDownload
     @Override
    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.channel_showChannel);
+        setContentView(R.layout.channel_show_channel);
         listView = (ListView) findViewById(R.id.listView);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -42,11 +43,29 @@ public class ChannelListActivity extends AppCompatActivity implements OnDownload
     }
     @Override
     public void onDownloadComplete(String result, int requestCode) {
+
         Gson gson = new Gson();
         ch = gson.fromJson(result, Channels.class);
 
-        listView.setAdapter(new ChannelAdapter(getApplicationContext(), R.layout.channel_showChannel,R.layout.row_layout, ch.channels));
-        listView.setOnItemClickListener(this);
+        if(ch != null) {
+            listView.setAdapter(new ChannelAdapter(getApplicationContext(), R.layout.channel_show_channel, R.layout.row_layout, ch.channels));
+            listView.setOnItemClickListener(this);
+        }
+        else
+        {
+            String messageErreur=null;
+            if (retour==null)
+                messageErreur = "Vérifier votre connexion internet.";
+            else
+                messageErreur = retour.getResponse();
+            Toast.makeText(getActivity(), "Erreur : " + messageErreur , Toast.LENGTH_SHORT);
+            if(retour==null)
+                getActivity().finish();
+        }
+
+
+
+
 
 
     }
@@ -54,7 +73,7 @@ public class ChannelListActivity extends AppCompatActivity implements OnDownload
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ChannelListFragment fragA   = (ChannelListFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentA_ID);
-        MessageFragment fragB= (MessageFragment)getSupportFragmentManager().findFragmentById (R.id.fragmentB_ID);
+        MessageFragment fragB = (MessageFragment)getSupportFragmentManager().findFragmentById (R.id.fragmentB_ID);
         if(fragB==null|| !fragB.isInLayout()){
             Intent myIntent = new Intent(getApplicationContext(),ChannelActivity.class);
             myIntent.putExtra("id", ch.channels.get(position).channelID);
@@ -64,8 +83,6 @@ public class ChannelListActivity extends AppCompatActivity implements OnDownload
         {
             fragB.changeChannelId (ch.channels.get(position).channelID);
         }
-
-
     }
 
 }

@@ -58,7 +58,7 @@ public class ChannelActivity extends Activity implements  OnDownloadCompleteList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.channel_activity_fragment);
+        setContentView(R.layout.channel_message_fragment);
 
 
         listViewMessage = (ListView) findViewById(R.id.listViewMessages);
@@ -102,6 +102,20 @@ public class ChannelActivity extends Activity implements  OnDownloadCompleteList
                 Toast.makeText(ChannelActivity.this, "Message non envoye", Toast.LENGTH_SHORT).show();
 
         }
+        else
+        {
+            String erreurMessage=null;
+            if (retour==null)
+                erreurMessage = "Vérifier votre connexion internet.";
+            else
+                erreurMessage = retour.getResponse();
+            Toast.makeText(getActivity(), "Erreur : " + erreurMessage , Toast.LENGTH_SHORT);
+            if(retour==null)
+                getActivity().finish();
+        }
+
+
+
     }
 
 
